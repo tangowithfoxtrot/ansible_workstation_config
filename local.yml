@@ -4,13 +4,21 @@
   become: true
 
   tasks:
+#  - name: add apt repositories
+#    apt_repository:
+#      repo: ppa:fish-shell/release-2
+
   - name: install packages
     package:
       name:
+        - fish
         - htop
         - nano
         - vim-nox
         - python3-psutil
+        - sshfs
+        - cifs-utils
+
 
   - name: copy wallpaper file
     copy:
