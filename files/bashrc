@@ -98,8 +98,6 @@ alias hal='ls -hal'
 alias dockerps="docker ps --format 'table {{.Names}}:\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 alias dockerpsa="docker ps -a --format 'table {{.Names}}:\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 
-
-
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'

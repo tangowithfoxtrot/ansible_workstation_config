@@ -39,3 +39,22 @@
       group: trevor
 
 
+  - name: add ansible user
+    user:
+      name: awx
+      system: yes
+
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_awx
+      dest: /etc/sudoers.d/awx
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: awx
+      hour: "*/6"
+      job: ansible-pull -o -U https://github.com/tangowithfoxtrot/ansible_workstation_config.git
