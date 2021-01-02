@@ -30,3 +30,12 @@
     dconf:
       key: "/org/gnome/desktop/background/picture-options"
       value: "'zoom'"
+
+  - name: copy .bashrc file
+    copy:
+      src: files/bashrc
+      dest: /home/trevor/.bashrc
+      owner: trevor
+      group: trevor
+
+
