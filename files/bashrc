@@ -97,6 +97,7 @@ alias l='ls -CF'
 alias hal='ls -hal'
 alias dockerps="docker ps --format 'table {{.Names}}:\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
 alias dockerpsa="docker ps -a --format 'table {{.Names}}:\t{{.Ports}}\t{{.Status}}\t{{.Networks}}'"
+alias apt='sudo apt'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
