@@ -17,8 +17,8 @@
 
   - name: copy nanorc folder
     copy:
-      src: files/nano/
-      dest: /home/trevor/.nano/
+      src: files/nano
+      dest: /home/trevor/.nano
       remote_src: yes
       directory_mode: yes
       owner: trevor
