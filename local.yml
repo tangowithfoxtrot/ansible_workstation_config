@@ -4,10 +4,6 @@
   become: true
 
   tasks:
-#  - name: add apt repositories
-#    apt_repository:
-#      repo: ppa:fish-shell/release-2
-
   - name: install packages
     package:
       name:
@@ -19,6 +15,19 @@
         - sshfs
         - cifs-utils
 
+  - name: copy nanorc folder
+    copy:
+      src: files/nano/
+      dest: /home/trevor/.nano/
+      owner: trevor
+      group: trevor
+
+  - name: copy nanorc folder
+    copy:
+      src: files/nanorc
+      dest: /home/trevor/.nanorc
+      owner: trevor
+      group: trevor
 
   - name: copy wallpaper file
     copy:
