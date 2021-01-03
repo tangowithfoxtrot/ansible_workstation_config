@@ -15,6 +15,12 @@
         - sshfs
         - cifs-utils
 
+  - name: add yaml syntax highlighting to vimrc
+    lineinfile:
+      path: /home/trevor/.vimrc
+      line: "autocmd FileType yaml setlocal ai ts=2 sw=2 et"
+      state: present
+
   - name: copy nanorc folder
     copy:
       src: files/nano/
