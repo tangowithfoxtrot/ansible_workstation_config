@@ -19,6 +19,7 @@
     copy:
       src: files/nano/
       dest: /home/trevor/.nano/
+      remote_src: yes
       owner: trevor
       group: trevor
 
@@ -26,6 +27,7 @@
     copy:
       src: files/nanorc
       dest: /home/trevor/.nanorc
+      remote_src: yes
       owner: trevor
       group: trevor
 
