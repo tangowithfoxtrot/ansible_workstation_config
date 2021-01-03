@@ -20,6 +20,7 @@
       src: files/nano/
       dest: /home/trevor/.nano/
       remote_src: yes
+      directory_mode: yes
       owner: trevor
       group: trevor
 
