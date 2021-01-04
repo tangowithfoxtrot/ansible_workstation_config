@@ -2,18 +2,7 @@
 - hosts: localhost
   connection: local
   become: true
-  vars:
-    packages:
-      - fish
-      - htop
-      - nano
-      - vim
-      - python3-psutil
-      - sshfs
-      - cifs-utils
-      - python3-pip
-
-  tasks:
+  
   - name: install packages (Debian)
     when: ansible_os_family == "Debian"
     package:
@@ -28,7 +17,7 @@
         - python3-pip
 
   - name: install packages (Arch)
-    when: ansible_os_family == "ArchLinux"
+    when: ansible_os_family == "Archlinux"
     package:
       name:
         - fish
@@ -37,7 +26,14 @@
         - vim
         - sshfs
         - cifs-utils
+        - cronie
 
+  - name: enable cronie (Arch)
+    when: ansible_os_family == "Archlinux"
+    systemd:
+      name: cronie
+      enabled: yes
+      state: started
 
 #  - name: add yaml syntax highlighting to vimrc
 #    lineinfile:
