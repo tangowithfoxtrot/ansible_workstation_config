@@ -2,9 +2,20 @@
 - hosts: localhost
   connection: local
   become: true
+  vars:
+    packages:
+      - fish
+      - htop
+      - nano
+      - vim
+      - python3-psutil
+      - sshfs
+      - cifs-utils
+      - python3-pip
 
   tasks:
-  - name: install packages
+  - name: install packages (Debian)
+    when: ansible_os_family == "Debian"
     package:
       name:
         - fish
@@ -15,6 +26,18 @@
         - sshfs
         - cifs-utils
         - python3-pip
+
+  - name: install packages (Arch)
+    when: ansible_os_family == "ArchLinux"
+    package:
+      name:
+        - fish
+        - htop
+        - nano
+        - vim
+        - sshfs
+        - cifs-utils
+
 
 #  - name: add yaml syntax highlighting to vimrc
 #    lineinfile:
