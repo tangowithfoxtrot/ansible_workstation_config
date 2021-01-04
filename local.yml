@@ -3,6 +3,7 @@
   connection: local
   become: true
   
+  tasks:
   - name: install packages (Debian)
     when: ansible_os_family == "Debian"
     package:
