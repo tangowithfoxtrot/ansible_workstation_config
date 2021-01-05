@@ -38,8 +38,9 @@
         - sshfs
         - cifs-utils
         - cronie
-        - rust
-        - typescript
+        - psutils # wallpaper task dependency
+        - rust  # pop-shell dependency
+        - typescript  # pop-shell dependency
 
   - name: add AUR user
     when: ansible_os_family == "Archlinux"
@@ -79,7 +80,7 @@
     become_user: aur_user
     aur: 
       name: 
-        - pop-shell-shortcuts-git
+        - pop-shell-shortcuts-git # pop-shell dependency
         - gnome-shell-extension-pop-shell
       state: present
 
