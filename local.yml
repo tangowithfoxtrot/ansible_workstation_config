@@ -105,10 +105,10 @@
       owner: root
       group: root
 
-  - name: install 'psutil' pip module (Arch)
-    when: ansible_os_family == "Archlinux"
-    pip:
-      name: psutil # required for 'set wallpaper' task for some reason
+        #  - name: install 'psutil' pip module (Arch)
+    #    when: ansible_os_family == "Archlinux"
+      #    pip:
+      #      name: psutil # required for 'set wallpaper' task for some reason
 
   - name: set wallpaper
     become_user: trevor
