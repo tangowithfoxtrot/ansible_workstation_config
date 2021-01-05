@@ -55,13 +55,12 @@
 
   - name: install packages from AUR (Arch)
     when: ansible_os_family == "Archlinux"
-  - aur:
-    become: yes
-    become_user: aur_user
-      use: auto
-      name:
-        - pop-shell-shortcuts
-        - gnome-shell-extension-pop-shell
+    - aur:
+      become: yes
+      become_user: aur_user
+        name:
+          - pop-shell-shortcuts
+          - gnome-shell-extension-pop-shell
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
