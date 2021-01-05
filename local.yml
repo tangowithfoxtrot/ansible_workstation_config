@@ -41,7 +41,7 @@
   
   - name: add AUR user
     when: ansible_os_family == "Archlinux"
-  - user:
+    user:
       name: aur_user
       group: wheel
 
