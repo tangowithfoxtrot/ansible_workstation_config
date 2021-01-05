@@ -2,7 +2,9 @@
 - hosts: localhost
   connection: local
   become: true
-  
+  roles:
+  - kewlfft.aur
+
   tasks:
   - name: install packages (Debian)
     when: ansible_os_family == "Debian"
@@ -36,6 +38,13 @@
         - sshfs
         - cifs-utils
         - cronie
+
+  - name: install packages from AUR (Arch)
+    when: ansible_os_family == "Archlinux"
+    aur:
+      name:
+        - pop-shell-shortcuts
+        - gnome-shell-extension-pop-shell
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
