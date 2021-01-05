@@ -38,6 +38,8 @@
         - sshfs
         - cifs-utils
         - cronie
+        - python-pip
+        - python-psutil
         - dconf # wallpaper task dependency
         - rust  # pop-shell dependency
         - typescript  # pop-shell dependency
@@ -104,11 +106,6 @@
       dest: /usr/share/backgrounds/ansible-wallpaper.png
       owner: root
       group: root
-
-        #  - name: install 'psutil' pip module (Arch)
-    #    when: ansible_os_family == "Archlinux"
-      #    pip:
-      #      name: psutil # required for 'set wallpaper' task for some reason
 
   - name: set wallpaper
     become_user: trevor
