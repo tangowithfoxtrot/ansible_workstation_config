@@ -79,7 +79,7 @@
     become_user: aur_user
     aur: 
       name: 
-        - pop-shell-shortcuts
+        - pop-shell-shortcuts-git
         - gnome-shell-extension-pop-shell
       state: present
 
