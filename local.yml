@@ -138,10 +138,6 @@
       key: "/org/gnome/desktop/screensaver/picture-uri"
       value: "'file:///usr/share/backgrounds/ansible-lockscreen.jpg'"
 
-  - name: install arc theme
-    apt:
-      name: arc-theme
-
   - name: set GTK theme
     become_user: trevor
     dconf:
