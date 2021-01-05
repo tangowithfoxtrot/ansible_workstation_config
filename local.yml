@@ -18,6 +18,9 @@
         - sshfs
         - cifs-utils
         - python3-pip
+        - arc-theme
+        - papirus-icon-theme
+        - gnome-tweaks
 
   - name: remove annoying packages (Debian)
     when: ansible_os_family == "Debian"
@@ -39,7 +42,10 @@
         - cifs-utils
         - cronie
         - python-pip
+        - arc-gtk-theme
+        - papirus-icon-theme
         - python-psutil
+        - gnome-tweaks
         - dconf # wallpaper task dependency
         - rust  # pop-shell dependency
         - typescript  # pop-shell dependency
@@ -49,7 +55,6 @@
     user:
       name: aur_user
       group: wheel
-
 
   - name: set up sudo for aur_user
     when: ansible_os_family == "Archlinux"
@@ -118,6 +123,36 @@
     dconf:
       key: "/org/gnome/desktop/background/picture-options"
       value: "'zoom'"
+
+  - name: copy lockscreen file
+    copy:
+      src: files/lockscreen.jpg
+      dest: /usr/share/backgrounds/ansible-lockscreen.jpg
+      owner: trevor
+      group: trevor
+      mode: 600
+
+  - name: set lock screen background
+    become_user: trevor
+    dconf:
+      key: "/org/gnome/desktop/screensaver/picture-uri"
+      value: "'file:///usr/share/backgrounds/ansible-lockscreen.jpg'"
+
+  - name: install arc theme
+    apt:
+      name: arc-theme
+
+  - name: set GTK theme
+    become_user: trevor
+    dconf:
+      key: "/org/gnome/desktop/interface/gtk-theme"
+      value: "'Arc-Dark'"
+
+  - name: set icon theme
+    become_user: trevor
+    dconf:
+      key: "/org/gnome/desktop/interface/icon-theme"
+      value: "'Papirus-Dark'"
 
   - name: copy .bashrc file
     copy:
