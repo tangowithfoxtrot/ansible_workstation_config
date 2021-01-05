@@ -44,28 +44,29 @@
     user:
       name: aur_user
       group: wheel
+
+  - name: add AUR user to sudoers
+    when: ansible_os_family == "Archlinux"
     lininfile:
       path: /etc/sudoers.d/11-install-aur_user
       line: 'aur_user ALL=(ALL) NOPASSWD: /usr/bin/pacman'
       create: yes
       validate: 'visudo -cf %s'
 
-        #  - name: add AUR user to sudoers
+        #  - name: install packages from AUR (Arch)
         #    when: ansible_os_family == "Archlinux"
-        #    lininfile:
-        #      path: /etc/sudoers.d/11-install-aur_user
-        #      line: 'aur_user ALL=(ALL) NOPASSWD: /usr/bin/pacman'
-        #      create: yes
-        #      validate: 'visudo -cf %s'
+        #    aur:
+        #      become: yes
+        #      become_user: aur_user
+        #      name:
+        #        - pop-shell-shortcuts
+        #        - gnome-shell-extension-pop-shell
 
   - name: install packages from AUR (Arch)
-    when: ansible_os_family == "Archlinux"
-    aur:
-      become: yes
-      become_user: aur_user
-      name:
-        - pop-shell-shortcuts
-        - gnome-shell-extension-pop-shell
+    when: ansible_os_family == 'Archlinux'
+    aur: name=gnome-shell-extension-pop-shell state=present
+    become: yes
+    become_user: aur_user
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
