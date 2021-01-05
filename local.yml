@@ -50,6 +50,11 @@
         - rust  # pop-shell dependency
         - typescript  # pop-shell dependency
 
+  - name: set user shell to fish
+    user:
+      name: trevor
+      shell: /bin/fish
+
   - name: add AUR user
     when: ansible_os_family == "Archlinux"
     user:
@@ -73,6 +78,12 @@
         - pop-shell-shortcuts-git # pop-shell dependency
         - gnome-shell-extension-pop-shell
       state: present
+
+  - name: enable extensions
+    when: ansible_os_family == 'Archlinux'
+      dconf:
+        key: "/org/gnome/shell/enabled-extensions"
+        value: "['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com']"
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
@@ -156,7 +167,6 @@
       dest: /home/trevor/.bashrc
       owner: trevor
       group: trevor
-
 
   - name: add ansible user
     user:
