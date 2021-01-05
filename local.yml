@@ -38,7 +38,7 @@
         - sshfs
         - cifs-utils
         - cronie
-  
+
   - name: add AUR user
     when: ansible_os_family == "Archlinux"
     user:
@@ -64,12 +64,11 @@
 
   - name: install packages from AUR (Arch)
     when: ansible_os_family == 'Archlinux'
+    become_user: aur_user
     aur: 
       name: 
         - gnome-shell-extension-pop-shell
-          #      state: present
-          #      become: yes
-          #      become_user: aur_user
+      state: present
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
