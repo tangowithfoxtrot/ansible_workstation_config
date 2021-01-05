@@ -44,14 +44,19 @@
     user:
       name: aur_user
       group: wheel
-
-  - name: add AUR user to sudoers
-    when: ansible_os_family == "Archlinux"
     lininfile:
       path: /etc/sudoers.d/11-install-aur_user
-      line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+      line: 'aur_user ALL=(ALL) NOPASSWD: /usr/bin/pacman'
       create: yes
       validate: 'visudo -cf %s'
+
+        #  - name: add AUR user to sudoers
+        #    when: ansible_os_family == "Archlinux"
+        #    lininfile:
+        #      path: /etc/sudoers.d/11-install-aur_user
+        #      line: 'aur_user ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        #      create: yes
+        #      validate: 'visudo -cf %s'
 
   - name: install packages from AUR (Arch)
     when: ansible_os_family == "Archlinux"
