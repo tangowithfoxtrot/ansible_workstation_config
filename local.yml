@@ -64,7 +64,10 @@
 
   - name: install packages from AUR (Arch)
     when: ansible_os_family == 'Archlinux'
-    aur: name=gnome-shell-extension-pop-shell state=present
+    aur: 
+      name: 
+        - gnome-shell-extension-pop-shell
+      state: present
       become: yes
       become_user: aur_user
 
