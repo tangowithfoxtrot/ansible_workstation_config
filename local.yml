@@ -38,6 +38,8 @@
         - sshfs
         - cifs-utils
         - cronie
+        - rust
+        - typescript
 
   - name: add AUR user
     when: ansible_os_family == "Archlinux"
