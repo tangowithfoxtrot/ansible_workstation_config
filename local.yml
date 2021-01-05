@@ -58,6 +58,7 @@
     aur:
     become: yes
     become_user: aur_user
+      use: auto
       name:
         - pop-shell-shortcuts
         - gnome-shell-extension-pop-shell
