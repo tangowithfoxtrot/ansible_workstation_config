@@ -17,6 +17,14 @@
         - cifs-utils
         - python3-pip
 
+  - name: remove annoying packages (Debian)
+    when: ansible_os_family == "Debian"
+    package:
+      name:
+        - cheese
+        - libreoffice-common
+      state: absent
+
   - name: install packages (Arch)
     when: ansible_os_family == "Archlinux"
     package:
@@ -29,18 +37,19 @@
         - cifs-utils
         - cronie
 
+  - name: remove annoying packages (Arch)
+    when: ansible_os_family == "Archlinux"
+    package:
+      name:
+        - cheese
+        - libreoffice-fresh
+
   - name: enable cronie (Arch)
     when: ansible_os_family == "Archlinux"
     systemd:
       name: cronie
       enabled: yes
       state: started
-
-#  - name: add yaml syntax highlighting to vimrc
-#    lineinfile:
-#      path: /home/trevor/.vimrc
-#      line: "autocmd FileType yaml setlocal ai ts=2 sw=2 et"
-#      state: present
 
   - name: copy nanorc folder
     copy:
