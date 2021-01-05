@@ -55,7 +55,7 @@
 
   - name: install packages from AUR (Arch)
     when: ansible_os_family == "Archlinux"
-    aur:
+  - aur:
     become: yes
     become_user: aur_user
       use: auto
