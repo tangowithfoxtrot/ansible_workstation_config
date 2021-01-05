@@ -43,6 +43,7 @@
       name:
         - cheese
         - libreoffice-fresh
+      state: absent
 
   - name: enable cronie (Arch)
     when: ansible_os_family == "Archlinux"
