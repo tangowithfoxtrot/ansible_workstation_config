@@ -46,7 +46,7 @@
       group: wheel
 
 
-  - name: set up sudo for ansible user
+  - name: set up sudo for aur_user
     when: ansible_os_family == "Archlinux"
     copy:
       src: files/sudoer_aur_user
