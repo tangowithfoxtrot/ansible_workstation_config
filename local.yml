@@ -81,9 +81,9 @@
 
   - name: enable extensions
     when: ansible_os_family == 'Archlinux'
-      dconf:
-        key: "/org/gnome/shell/enabled-extensions"
-        value: "['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com']"
+    dconf:
+      key: "/org/gnome/shell/enabled-extensions"
+      value: "['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com']"
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
