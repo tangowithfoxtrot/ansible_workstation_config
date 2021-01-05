@@ -50,7 +50,6 @@
     when: ansible_os_family == "Archlinux"
     package:
       name:
-        - cheese
         - libreoffice-fresh
       state: absent
 
