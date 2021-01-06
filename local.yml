@@ -55,19 +55,20 @@
     package:
       name:
         - libreoffice-fresh
-
+        - com.vscodium.codium
+        
   - name: add flathub repository
     flatpak_remote:
       name: flathub
       state: present
       flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
-        #  - name: install flatpak packages
-        #    flatpak:
-        #      name:
-        #        - org.gnome.gedit
-        #      state: present
-        #      method: user
+  - name: install flatpak packages
+    flatpak:
+      name:
+        - org.gnome.gedit
+      state: present
+      method: user
 
   - name: set user shell to fish
     user:
@@ -103,13 +104,6 @@
     dconf:
       key: "/org/gnome/shell/enabled-extensions"
       value: "['CoverflowAltTab@palatis.blogspot.com', 'dash-to-panel@jderose9.github.com', 'dynamic-panel-transparency@rockon999.github.io', 'nohotcorner@azuri.free.fr', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com']"
-
-  - name: remove annoying packages (Arch)
-    when: ansible_os_family == "Archlinux"
-    package:
-      name:
-        - libreoffice-fresh
-      state: absent
 
   - name: enable cronie (Arch)
     when: ansible_os_family == "Archlinux"
