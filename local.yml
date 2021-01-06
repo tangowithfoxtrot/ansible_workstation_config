@@ -83,7 +83,7 @@
     when: ansible_os_family == 'Archlinux'
     dconf:
       key: "/org/gnome/shell/enabled-extensions"
-      value: "['windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'native-window-placement@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com']"
+      value: "['CoverflowAltTab@palatis.blogspot.com', 'dash-to-panel@jderose9.github.com', 'dynamic-panel-transparency@rockon999.github.io', 'nohotcorner@azuri.free.fr', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'pop-shell@system76.com', 'apps-menu@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com']"
 
   - name: remove annoying packages (Arch)
     when: ansible_os_family == "Archlinux"
