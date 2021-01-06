@@ -58,13 +58,13 @@
         - libreoffice-fresh
       state: absent
 
-    - name: configure flatpak
-      vars: 
-        flatpak_method: system
-        flatpak_repos:
-          - https://dl.flathub.org/repo/flathub.flatpakrepo
-        flatpak_packages:
-          - com.vscodium.codium
+  - name: configure flatpak
+    vars: 
+      flatpak_method: system
+      flatpak_repos:
+        - https://dl.flathub.org/repo/flathub.flatpakrepo
+      flatpak_packages:
+        - com.vscodium.codium
 
   # - name: add flathub repository
   #   flatpak_remote:
