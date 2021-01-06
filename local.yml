@@ -65,7 +65,8 @@
   - name: install flatpak packages
     community.general.flatpak:
       name:
-        - "https://flathub.org/apps/details/com.vscodium.codium"
+        - io.gitlab.o20.word
+        - com.vscodium.codium
       state: present
 
   - name: set user shell to fish
