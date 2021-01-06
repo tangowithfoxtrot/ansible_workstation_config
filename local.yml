@@ -50,6 +50,18 @@
         - rust  # pop-shell dependency
         - typescript  # pop-shell dependency
 
+  - name: remove annoting packages (Arch)
+    when: ansible_os_family == "Archlinux"
+    package:
+      name:
+        - libreoffice-fresh
+
+  - name: install flatpak packages
+    community.general.flatpak:
+      name:
+        - https://flathub.org/apps/details/com.vscodium.codium
+      state: present
+
   - name: set user shell to fish
     user:
       name: trevor
