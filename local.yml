@@ -55,6 +55,7 @@
     package:
       name:
         - libreoffice-fresh
+      remote: flathub
       state: absent
 
   - name: add flathub repository
