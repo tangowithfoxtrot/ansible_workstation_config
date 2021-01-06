@@ -4,6 +4,7 @@
   become: true
   roles:
   - kewlfft.aur
+  - devopstoolbox.flatpak
 
   tasks:
   - name: install packages (Debian)
@@ -57,17 +58,25 @@
         - libreoffice-fresh
       state: absent
 
-  - name: add flathub repository
-    flatpak_remote:
-      name: flathub
-      state: present
-      flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    - name: configure flatpak
+      vars: 
+        flatpak_method: system
+        flatpak_repos:
+          - https://dl.flathub.org/repo/flathub.flatpakrepo
+        flatpak_packages:
+          - com.vscodium.codium
 
-  - name: install flatpak packages
-    community.general.flatpak:
-      name:
-        - flathub.org/repo/appstream/com.vscodium.codium.flatpakref
-      state: present
+  # - name: add flathub repository
+  #   flatpak_remote:
+  #     name: flathub
+  #     state: present
+  #     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
+  # - name: install flatpak packages
+  #   community.general.flatpak:
+  #     name:
+  #       - flathub.org/repo/appstream/com.vscodium.codium.flatpakref
+  #     state: present
 
   - name: set user shell to fish
     user:
