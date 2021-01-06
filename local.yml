@@ -55,7 +55,6 @@
     package:
       name:
         - libreoffice-fresh
-      remote: flathub
       state: absent
 
   - name: add flathub repository
@@ -69,6 +68,7 @@
       name:
         - com.vscodium.codium
       state: present
+      remote: flathub
       method: user
 
   - name: set user shell to fish
