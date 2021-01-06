@@ -62,12 +62,12 @@
       state: present
       flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
-  - name: install flatpak packages
-    flatpak:
-      name:
-        - org.gnome.gedit
-      state: present
-      method: user
+        #  - name: install flatpak packages
+        #    flatpak:
+        #      name:
+        #        - org.gnome.gedit
+        #      state: present
+        #      method: user
 
   - name: set user shell to fish
     user:
