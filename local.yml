@@ -55,8 +55,8 @@
     package:
       name:
         - libreoffice-fresh
-        - com.vscodium.codium
-        
+      state: absent
+
   - name: add flathub repository
     flatpak_remote:
       name: flathub
@@ -66,7 +66,7 @@
   - name: install flatpak packages
     flatpak:
       name:
-        - org.gnome.gedit
+        - com.vscodium.codium
       state: present
       method: user
 
