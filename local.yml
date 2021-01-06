@@ -57,7 +57,7 @@
         - libreoffice-fresh
 
   - name: add flathub repository
-    community.general.flatpak_remote:
+    flatpak_remote:
       name: flathub
       state: present
       flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -65,7 +65,7 @@
   - name: install flatpak packages
     community.general.flatpak:
       name:
-        - com.vscodium.codium
+        - "com.vscodium.codium"
       state: present
 
   - name: set user shell to fish
