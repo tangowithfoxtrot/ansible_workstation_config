@@ -64,11 +64,10 @@
       flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
   - name: install flatpak packages
-    flatpak:
+    community.general.flatpak:
       name:
         - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       state: present
-      method: user
 
   - name: set user shell to fish
     user:
