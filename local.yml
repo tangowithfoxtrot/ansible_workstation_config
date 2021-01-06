@@ -63,10 +63,9 @@
       flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
 
   - name: install flatpak packages
-    community.general.flatpak:
+    flatpak:
       name:
-        - io.gitlab.o20.word
-        - com.vscodium.codium
+        - com.vscodium.codium.flatpakref
       state: present
 
   - name: set user shell to fish
