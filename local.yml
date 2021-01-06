@@ -56,6 +56,12 @@
       name:
         - libreoffice-fresh
 
+  - name: add flathub repository
+    community.general.flatpak_remote:
+      name: flathub
+      state: present
+      flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+
   - name: install flatpak packages
     community.general.flatpak:
       name:
