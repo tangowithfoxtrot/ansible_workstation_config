@@ -66,9 +66,8 @@
   - name: install flatpak packages
     flatpak:
       name:
-        - com.vscodium.codium
+        - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       state: present
-      remote: flathub
       method: user
 
   - name: set user shell to fish
