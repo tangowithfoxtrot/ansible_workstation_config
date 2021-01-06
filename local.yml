@@ -65,7 +65,7 @@
   - name: install flatpak packages
     flatpak:
       name:
-        - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
+        - org.gnome.gedit
       state: present
 
   - name: set user shell to fish
