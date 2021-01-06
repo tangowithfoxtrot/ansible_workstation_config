@@ -67,6 +67,7 @@
       name:
         - org.gnome.gedit
       state: present
+    method: user
 
   - name: set user shell to fish
     user:
