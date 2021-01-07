@@ -62,13 +62,8 @@
   - name: install flatpak packages
     flatpak:
       name: https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
-      # name:
-      #   - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       method: system
       state: present
-    # tags:
-    #   - codium
-    #   - flatpak
 
   - name: set user shell to fish
     user:
