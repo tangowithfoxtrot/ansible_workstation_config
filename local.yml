@@ -5,9 +5,6 @@
   roles:
   - kewlfft.aur
   - don_rumata.ansible_role_install_flatpak
-  strategy: free
-  serial:
-    - "100%"
 
   tasks:
   - name: install packages (Debian)
@@ -64,13 +61,14 @@
 
   - name: install flatpak packages
     flatpak:
-      name:
-        - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
+      name: https://flathub.org/repo/appstream/org.mozilla.firefox.flatpakref
+      # name:
+      #   - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       method: system
       state: present
-    tags:
-      - codium
-      - flatpak
+    # tags:
+    #   - codium
+    #   - flatpak
 
   - name: set user shell to fish
     user:
