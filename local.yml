@@ -4,7 +4,7 @@
   become: true
   roles:
   - kewlfft.aur
-  - crivetimihai.flatpak
+  - don_rumata.ansible_role_install_flatpak
 
   tasks:
   - name: install packages (Debian)
@@ -58,25 +58,21 @@
         - libreoffice-fresh
       state: absent
 
-  - name: configure flatpak
-    vars: 
-      flatpak_method: system
-      flatpak_repos:
-        - https://dl.flathub.org/repo/flathub.flatpakrepo
-      flatpak_packages:
-        - com.vscodium.codium
+  - name: Install flatpak on localhost
+  
+  # strategy: free
+  # serial:
+  #   - "100%"
 
-  # - name: add flathub repository
-  #   flatpak_remote:
-  #     name: flathub
-  #     state: present
-  #     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
-
-  # - name: install flatpak packages
-  #   community.general.flatpak:
-  #     name:
-  #       - flathub.org/repo/appstream/com.vscodium.codium.flatpakref
-  #     state: present
+  - name: install flatpak packages
+    flatpak:
+      name:
+        - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
+      method: system
+      state: present
+    # tags:
+    #   - codium
+    #   - flatpak
 
   - name: set user shell to fish
     user:
