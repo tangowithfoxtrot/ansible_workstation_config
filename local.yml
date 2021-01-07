@@ -57,8 +57,6 @@
       name:
         - libreoffice-fresh
       state: absent
-
-  - name: Install flatpak on localhost
   
   # strategy: free
   # serial:
