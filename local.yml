@@ -65,7 +65,7 @@
       # name:
       #   - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       method: system
-      state: present
+      state: absent
     # tags:
     #   - codium
     #   - flatpak
