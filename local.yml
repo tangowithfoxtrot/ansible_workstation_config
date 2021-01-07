@@ -5,6 +5,9 @@
   roles:
   - kewlfft.aur
   - don_rumata.ansible_role_install_flatpak
+  strategy: free
+  serial:
+    - "100%"
 
   tasks:
   - name: install packages (Debian)
@@ -58,9 +61,6 @@
         - libreoffice-fresh
       state: absent
   
-  # strategy: free
-  # serial:
-  #   - "100%"
 
   - name: install flatpak packages
     flatpak:
@@ -68,9 +68,9 @@
         - https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
       method: system
       state: present
-    # tags:
-    #   - codium
-    #   - flatpak
+    tags:
+      - codium
+      - flatpak
 
   - name: set user shell to fish
     user:
