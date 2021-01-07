@@ -58,7 +58,6 @@
         - libreoffice-fresh
       state: absent
   
-
   - name: install flatpak packages
     flatpak:
       name: https://flathub.org/repo/appstream/com.vscodium.codium.flatpakref
