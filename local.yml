@@ -4,7 +4,7 @@
   become: true
   roles:
   - kewlfft.aur
-  - devopstoolbox.flatpak
+  - crivetimihai.flatpak
 
   tasks:
   - name: install packages (Debian)
