@@ -1,0 +1,338 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - ansible-modules-bitwarden
+
+  collections:
+    - kewlfft.aur
+    
+  vars_files:
+    - .env
+
+  vars:
+    ansible_become_pass: "{{ ansible_become_pass }}"
+
+  tasks:
+
+  - name: install packages (Debian)
+    when: ansible_os_family == "Debian"
+    package:
+      name:
+        - fish
+        - htop
+        - nano
+        - python3-psutil
+        - openssh-server
+        - sshfs
+        - cifs-utils
+        - python3-pip
+        - arc-theme
+        - papirus-icon-theme
+        - gnome-tweaks
+
+  - name: remove annoying packages (Debian)
+    when: ansible_os_family == "Debian"
+    package:
+      name:
+        - cheese
+        - libreoffice-common
+      state: absent
+
+  - name: enable SSH
+    when: ansible_os_family == "Debian"
+    ansible.builtin.systemd:
+      name: ssh
+      state: started
+      enabled: yes
+
+  - name: install packages (Arch)
+    when: ansible_os_family == "ArchLinux"
+    package:
+      name:
+        - dconf
+        - python3-psutil
+
+  - name: remove annoying packages (Arch)
+    when: ansible_os_family == "Archlinux"
+    package:
+      name:
+        - libreoffice-fresh
+      state: absent
+
+  - name: create user with password (Debian)
+    when: ansible_os_family == "Debian"
+    user:
+      name: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true, sync=true) }}"
+      password: "{{ lookup('bitwarden', 'envwarden', field='SERVER_PASSWORD', custom_field=true) | password_hash('sha512') }}"
+      shell: /bin/fish
+      state: present
+      groups: sudo
+      append: yes
+
+  - name: create user with password (Arch)
+    when: ansible_os_family == "Archlinux"
+    user:
+      name: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      password: "{{ lookup('bitwarden', 'envwarden', field='SERVER_PASSWORD', custom_field=true) | password_hash('sha512') }}"
+      shell: /bin/fish
+      state: present
+      groups: wheel
+      append: yes
+
+  - name: add SSH pubkey
+    authorized_key:
+      user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      key: "{{ lookup('bitwarden', 'envwarden', field='USER_PUBKEY', custom_field=true) }}"
+      state: present
+
+  - name: add AUR user
+    when: ansible_os_family == "Archlinux"
+    user:
+      name: aur_user
+      group: wheel
+
+  - name: set up sudo for aur_user
+    when: ansible_os_family == "Archlinux"
+    copy:
+      src: files/sudoer_aur_user
+      dest: /etc/sudoers.d/aur_user
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: install packages from AUR (Arch)
+    when: ansible_os_family == 'Archlinux'
+    become_user: aur_user
+    aur:
+      state: present
+      name:
+        - alacritty
+        - alsa-utils
+        - amd-ucode # or intel-ucode
+        - android-sdk-platform-tools
+        - android-udev
+        - archlinux-wallpaper
+        - aria2
+        - baobab # storage space utility
+        - base
+        - bitwarden
+        - bitwarden-cli
+        - bluez
+        - bluez-utils
+        - bpytop
+        - btop
+        - chiaki # remote play utility
+        - code
+        - code-marketplace
+        - cronie
+        - deskreen # wireless screen mirroring utility
+        - dconf
+        - docker
+        - docker-compose
+        - dracula-alacritty-git
+        - dracula-gtk-theme
+        - dracula-icons-git
+        - eog
+        - fakeroot
+        - feh
+        - firefox
+        - firewalld
+        - fish
+        - flameshot # screenshot utility
+        - fuse-overlayfs
+        - ghostwriter # markdown editor
+        - git
+        - glow
+        - gnome-font-viewer
+        - gnome-shell-extensions
+        - gnome-system-monitor
+        - gnome-terminal
+        - gnome-tweaks
+        - go
+        - go-yq
+        - grep
+        - helm
+        - jq
+        - kompose-bin
+        - kubectl
+        - kubectl-neat
+        - kustomize
+        - linux-zen
+        - linux-zen-headers
+        - lolcat
+        - nano
+        - nano-syntax-highlighting
+        - nemo
+        - nemo-audio-tab
+        - nemo-fileroller
+        - nemo-preview
+        - nemo-share
+        - neofetch
+        - network-manager-applet
+        - networkmanager
+        - noto-fonts-cjk
+        - noto-fonts-emoji
+        - ntfs-3g
+        - obs-studio
+        - ocs-url
+        - openssh
+        - p7zip
+        - pacman-backup-hook
+        - pavucontrol
+        - peek # video recording utility
+        - pulseaudio-bluetooth
+        - qemu
+        - reflector
+        - rsync
+        - scrcpy
+        - signal-desktop
+        - socat
+        - spice-vdagent
+        - steam
+        - sudo
+        - syncthing
+        - systemd-boot-pacman-hook
+        - telegram-desktop
+        - tldr
+        - tree
+        - ttf-dejavu
+        - ttf-roboto
+        - ttf-roboto-mono
+        - unzip
+        - vial-appimage
+        - vim
+        - virt-manager
+        - yay
+        - yt-dlp
+        - zip
+
+  - name: enable extensions
+    when: ansible_os_family == 'Archlinux'
+    dconf:
+      key: "/org/gnome/shell/enabled-extensions"
+      value: "['apps-menu@gnome-shell-extensions.gcampax.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com', 'vertical-overview@RensAlthuis.github.com', 'tiling-assistant@leleat-on-github', 'gTile@vibou']"
+
+  - name: enable cronie (Arch)
+    when: ansible_os_family == "Archlinux"
+    systemd:
+      name: cronie
+      enabled: yes
+      state: started
+
+  - name: copy to $HOME/.config
+    copy:
+      src: files/{{item}}
+      dest: /home/{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}/.config/
+      owner: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      group: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    with_items:
+      ['alacritty','espanso','fish', 'omf']
+
+  - name: copy to $HOME
+    copy:
+      src: files/{{item}}
+      dest: /home/{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}/
+      owner: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      group: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    with_items:
+      ['.bashrc','.nano','.nanorc','.vimrc']
+
+  - name: copy to $HOME/.local/share
+    copy:
+      src: files/{{item}}
+      dest: /home/{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}/.local/share/
+      owner: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      group: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    with_items:
+      ['home-user-.local-share-omf']
+
+  - name: download secret functions
+    command: |
+      echo '' && \
+      "{{ lookup('bitwarden', 'algo.fish', itemid='5310c27b-e7d7-4721-bdc1-ad79015d73ae', attachments=true ) }}" \
+      "{{ lookup('bitwarden', 'algo-update.fish', itemid='5310c27b-e7d7-4721-bdc1-ad79015d73ae', attachments=true ) }}" \
+      "{{ lookup('bitwarden', 'rpg-ssh.fish', itemid='5310c27b-e7d7-4721-bdc1-ad79015d73ae', attachments=true ) }}"
+
+  - name: copy secret functions
+    copy:
+      src: "{{ item }}"
+      dest: /home/{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}/.config/fish/functions
+      owner: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      group: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      mode: 0644
+    with_fileglob: "*.fish"
+
+  - name: delete secret functions
+    file: 
+      path: "{{ item }}" 
+      state: absent
+    delegate_to: localhost
+    with_fileglob: "*.fish"
+
+  - name: copy wallpaper file
+    copy:
+      src: files/wallpaper.png
+      dest: /usr/share/backgrounds/ansible-wallpaper.png
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: copy lockscreen file
+    copy:
+      src: files/lockscreen.jpg
+      dest: /usr/share/backgrounds/ansible-lockscreen.jpg
+      owner: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      group: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+      mode: 0644
+
+  - name: set wallpaper
+    become_user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    dconf:
+      key: "/org/gnome/desktop/background/picture-uri"
+      value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'"
+
+  - name: set wallpaper position
+    become_user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    dconf:
+      key: "/org/gnome/desktop/background/picture-options"
+      value: "'zoom'"
+
+  - name: set lock screen background
+    become_user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    dconf:
+      key: "/org/gnome/desktop/screensaver/picture-uri"
+      value: "'file:///usr/share/backgrounds/ansible-lockscreen.jpg'"
+
+  - name: set GTK theme
+    become_user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    dconf:
+      key: "/org/gnome/desktop/interface/gtk-theme"
+      value: "'Arc-Dark'"
+
+  - name: set icon theme
+    become_user: "{{ lookup('bitwarden', 'envwarden', field='SERVER_USERNAME', custom_field=true) }}"
+    dconf:
+      key: "/org/gnome/desktop/interface/icon-theme"
+      value: "'Papirus-Dark'"
+
+  - name: add ansible user
+    user:
+      name: awx
+      system: yes
+
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_awx
+      dest: /etc/sudoers.d/awx
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: awx
+      hour: "*/6"
+      job: ansible-pull -o -U https://github.com/tangowithfoxtrot/ansible_workstation_config.git
